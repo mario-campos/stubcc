@@ -14,6 +14,9 @@ fn main() {
     let program = env::args().next().unwrap();
     let program_name = Path::new(&program).file_name().unwrap();
 
+    let mut output_mode = false;
+    let mut compile_mode = false;
+
     for arg in env::args().skip(1) {
         if arg == "--version" {
             println!("{}", match program_name.to_str().unwrap() {
@@ -24,16 +27,29 @@ fn main() {
             process::exit(0);
         }
 
+        if arg == "-o" {
+            output_mode = true;
+        }
+
         if arg == "-c" {
-            process::exit(0);
+            compile_mode = true;
         }
     }
 
-    for pair in env::args().zip(env::args().skip(1)) {
-        let (flag, arg) = pair;
-        if flag == "-o" {
-            fs::write(arg, b"\x01S\x23E\x45M\x67M\x89L\xabE\xcd!\xef");
-            process::exit(0);
+    if output_mode {
+        for pair in env::args().zip(env::args().skip(1)) {
+            let (flag, arg) = pair;
+            if flag == "-o" {
+                // As a quick test of the compiler, the extractor will have the compiler compile a small snippet.
+                // The extractor then looks for this particular byte sequence in the output file:
+                //   0x01 0x53 0x23 0x45 0x45 0x4d 0x67 0x4d 0x89 0x4c 0xab 0x45 0xcd 0x21 0xef
+                fs::write(arg, b"\x01S\x23E\x45M\x67M\x89L\xabE\xcd!\xef");
+                process::exit(0);
+            }
         }
+    } else if compile_mode {
+        process::exit(0);
+    } else {
+        process::exit(1);
     }
 }
