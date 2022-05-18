@@ -23,6 +23,10 @@ fn main() {
             });
             process::exit(0);
         }
+
+        if arg == "-c" {
+            process::exit(0);
+        }
     }
 
     for pair in env::args().zip(env::args().skip(1)) {
