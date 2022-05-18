@@ -32,7 +32,7 @@ fn main() {
     for pair in env::args().zip(env::args().skip(1)) {
         let (flag, arg) = pair;
         if flag == "-o" {
-            fs::write(arg, b"\x01S\x23T\x45U\x67B\x89C\xABC\xDE\xFF");
+            fs::write(arg, b"\x01S\x23E\x45M\x67M\x89L\xabE\xcd!\xef\n1\n");
             process::exit(0);
         }
     }
