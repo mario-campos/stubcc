@@ -33,17 +33,19 @@ jobs:
         
     needs: cargo-build
     runs-on: ubuntu-latest
-    env:
-      CC: ${{ runner.temp }}/${{ matrix.cc }}
     
     steps:
     - name: Install stubcc
+      env:
+        CC: ${{ runner.temp }}/${{ matrix.cc }}
       run: mv target/release/stubcc "$CC"
     - name: Install CodeQL CLI
       run: |
         wget --quiet https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
         unzip codeql-linux64.zip
     - name: The Ultimate Test
+      env:
+        CC: ${{ runner.temp }}/${{ matrix.cc }}
       run: |
         echo 'int main(int argc, char *argv[]) { return 42; }' > 42.c
         codeql/codeql database create --language cpp --command "$CC -o 42 42.c" database
