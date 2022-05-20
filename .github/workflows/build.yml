@@ -35,10 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Install stubcc
-      env:
-        CC: ${{ runner.temp }}/${{ matrix.cc }}
-      run: mv target/release/stubcc "$CC"
+    - name: Download stubcc
+      uses: actions/download-artifact@v3.0.0
+      with:
+        name: stubcc_ubuntu-latest
+        path: ${{ runner.temp }}/${{ matrix.cc }}
     - name: Install CodeQL CLI
       run: |
         wget --quiet https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
