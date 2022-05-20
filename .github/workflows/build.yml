@@ -42,12 +42,12 @@ jobs:
     - name: Install stubcc
       env:
         CC: ${{ runner.temp }}/${{ matrix.cc }}
-      run: ls -lR ; install -m 755 stubcc "$CC"
+      run: install -m 755 stubcc "$CC"
     - name: Install CodeQL CLI
       run: |
         wget --quiet https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
         unzip codeql-linux64.zip
-    - name: The Ultimate Test
+    - name: codeql database create
       env:
         CC: ${{ runner.temp }}/${{ matrix.cc }}
       run: |
