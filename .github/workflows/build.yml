@@ -11,11 +11,7 @@ env:
 
 jobs:
   cargo-build:
-    strategy:
-      matrix:
-        platform: [ ubuntu-latest, macos-latest ]
-        
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -23,7 +19,7 @@ jobs:
       run: cargo build --verbose --release
     - uses: actions/upload-artifact@v3
       with:
-        name: stubcc_${{ matrix.platform }}
+        name: stubcc
         path: target/release/stubcc
 
   codeql-test:
@@ -38,7 +34,7 @@ jobs:
     - name: Download stubcc
       uses: actions/download-artifact@v3.0.0
       with:
-        name: stubcc_ubuntu-latest
+        name: stubcc
     - name: Install stubcc
       env:
         CC: ${{ runner.temp }}/${{ matrix.cc }}
