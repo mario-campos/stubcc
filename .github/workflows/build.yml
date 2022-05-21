@@ -42,7 +42,7 @@ jobs:
     - name: Install CodeQL CLI
       run: |
         wget --quiet https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
-        unzip codeql-linux64.zip
+        unzip -qq codeql-linux64.zip
     - name: codeql database create
       env:
         CC: ${{ runner.temp }}/${{ matrix.cc }}
